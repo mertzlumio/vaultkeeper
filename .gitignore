@@ -1,0 +1,31 @@
+# Python / Django
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.venv/
+env/
+venv/
+*.log
+db.sqlite3
+/static/
+media/
+.env
+*.env
+
+# Node / React
+node_modules/
+dist/
+build/
+.env.local
+.env.development
+.env.production
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
