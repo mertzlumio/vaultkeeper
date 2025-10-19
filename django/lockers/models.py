@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+import random
+import string
 
 class Locker(models.Model):
     locker_number = models.CharField(max_length=20, unique=True)
@@ -18,6 +20,17 @@ class Reservation(models.Model):
     reserved_at = models.DateTimeField(auto_now_add=True)
     reserved_until = models.DateTimeField()
     is_active = models.BooleanField(default=True)
+    access_pin = models.CharField(max_length=6, blank=True)  # 6-digit PIN for physical access
 
     def __str__(self):
         return f"{self.user.username} reserved {self.locker.locker_number}"
+
+    def generate_pin(self):
+        """Generate a random 6-digit PIN"""
+        return ''.join(random.choices(string.digits, k=6))
+
+    def save(self, *args, **kwargs):
+        # Auto-generate PIN on creation
+        if not self.access_pin:
+            self.access_pin = self.generate_pin()
+        super().save(*args, **kwargs)
