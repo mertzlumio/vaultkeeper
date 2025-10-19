@@ -7,6 +7,8 @@ const AdminDashboard = () => {
   const [reservations, setReservations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editingLocker, setEditingLocker] = useState(null);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [formData, setFormData] = useState({
@@ -23,7 +25,7 @@ const AdminDashboard = () => {
       setLoading(true);
       const [lockersRes, reservationsRes] = await Promise.all([
         lockerAPI.getAll(),
-        reservationAPI.getAll(), // Get ALL reservations, not just user's
+        reservationAPI.getAll(),
       ]);
       setLockers(lockersRes.data);
       setReservations(reservationsRes.data);
@@ -51,6 +53,34 @@ const AdminDashboard = () => {
     } catch (err) {
       setError(err.response?.data?.locker_number?.[0] || 'Error creating locker');
     }
+  };
+
+  const handleEditLocker = async (e) => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
+    
+    try {
+      await lockerAPI.update(editingLocker.id, formData);
+      setFormData({ locker_number: '', location: '' });
+      setShowEditModal(false);
+      setEditingLocker(null);
+      setSuccess('✓ Locker updated successfully');
+      fetchData();
+      setTimeout(() => setSuccess(''), 3000);
+    } catch (err) {
+      setError(err.response?.data?.locker_number?.[0] || 'Error updating locker');
+    }
+  };
+
+  const openEditModal = (locker) => {
+    setEditingLocker(locker);
+    setFormData({
+      locker_number: locker.locker_number,
+      location: locker.location,
+    });
+    setShowEditModal(true);
+    setError('');
   };
 
   const handleDeleteLocker = async (id) => {
@@ -124,7 +154,11 @@ const AdminDashboard = () => {
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-2xl font-bold">All Lockers</h2>
             <button
-              onClick={() => setShowCreateModal(true)}
+              onClick={() => {
+                setFormData({ locker_number: '', location: '' });
+                setShowCreateModal(true);
+                setError('');
+              }}
               className="btn-primary flex items-center space-x-2"
             >
               <FaPlus />
@@ -157,8 +191,16 @@ const AdminDashboard = () => {
                       {locker.status}
                     </span>
                     <button
+                      onClick={() => openEditModal(locker)}
+                      className="btn-secondary text-sm px-3"
+                      title="Edit Locker"
+                    >
+                      <FaEdit />
+                    </button>
+                    <button
                       onClick={() => handleDeleteLocker(locker.id)}
                       className="btn-danger text-sm px-3"
+                      title="Deactivate Locker"
                     >
                       <FaTrash />
                     </button>
@@ -208,9 +250,9 @@ const AdminDashboard = () => {
         </div>
       </div>
 
-      {/* Reservations Table */}
+      {/* Reservations Table - FIXED HEADING */}
       <div>
-        <h2 className="text-2xl font-bold mb-4">All User Reservations</h2>
+        <h2 className="text-2xl font-bold mb-4">All Reservations</h2>
         <div className="overflow-x-auto card">
           {reservations.length === 0 ? (
             <div className="text-center py-8 text-gray-500">
@@ -265,6 +307,11 @@ const AdminDashboard = () => {
           <div className="bg-white rounded-lg p-6 max-w-md w-full shadow-xl">
             <h3 className="text-xl font-bold mb-4">Create New Locker</h3>
             <form onSubmit={handleCreateLocker} className="space-y-4">
+              {error && (
+                <div className="bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded text-sm">
+                  {error}
+                </div>
+              )}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Locker Number *
@@ -304,6 +351,70 @@ const AdminDashboard = () => {
                   onClick={() => {
                     setShowCreateModal(false);
                     setFormData({ locker_number: '', location: '' });
+                    setError('');
+                  }}
+                  className="btn-secondary flex-1"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Modal */}
+      {showEditModal && editingLocker && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg p-6 max-w-md w-full shadow-xl">
+            <h3 className="text-xl font-bold mb-4">Edit Locker</h3>
+            <form onSubmit={handleEditLocker} className="space-y-4">
+              {error && (
+                <div className="bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded text-sm">
+                  {error}
+                </div>
+              )}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Locker Number *
+                </label>
+                <input
+                  type="text"
+                  value={formData.locker_number}
+                  onChange={(e) =>
+                    setFormData({ ...formData, locker_number: e.target.value })
+                  }
+                  className="input-field"
+                  placeholder="e.g., A1, B2"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Location *
+                </label>
+                <input
+                  type="text"
+                  value={formData.location}
+                  onChange={(e) =>
+                    setFormData({ ...formData, location: e.target.value })
+                  }
+                  className="input-field"
+                  placeholder="e.g., Building A, Floor 2"
+                  required
+                />
+              </div>
+              <div className="flex space-x-3 pt-4">
+                <button type="submit" className="btn-primary flex-1">
+                  Update
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowEditModal(false);
+                    setEditingLocker(null);
+                    setFormData({ locker_number: '', location: '' });
+                    setError('');
                   }}
                   className="btn-secondary flex-1"
                 >

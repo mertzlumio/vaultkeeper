@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import { lockerAPI, reservationAPI } from '../services/api';
 import { FaLock, FaUnlock, FaKey, FaClock, FaMapMarkerAlt, FaTrash } from 'react-icons/fa';
 import { format } from 'date-fns';
 
 const Dashboard = () => {
+  const { isAdmin } = useAuth();
   const [lockers, setLockers] = useState([]);
   const [reservations, setReservations] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -15,8 +18,14 @@ const Dashboard = () => {
   const [success, setSuccess] = useState('');
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (!isAdmin) {
+      fetchData();
+    }
+  }, [isAdmin]);
+
+  if (isAdmin) {
+    return <Navigate to="/admin" />;
+  }
 
   const fetchData = async () => {
     try {

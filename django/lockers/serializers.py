@@ -2,6 +2,19 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import Locker, Reservation
 from django.utils import timezone
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        # Add custom claims
+        token['username'] = user.username
+        token['is_staff'] = user.is_staff
+        return token
+
+
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):

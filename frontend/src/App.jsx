@@ -1,5 +1,5 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './context/AuthContext';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { useAuth } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -29,7 +29,7 @@ const PrivateRoute = ({ children, adminOnly = false }) => {
   return children;
 };
 
-function AppRoutes() {
+function App() {
   const { isAuthenticated } = useAuth();
   
   return (
@@ -70,16 +70,6 @@ function AppRoutes() {
         />
       </Routes>
     </>
-  );
-}
-
-function App() {
-  return (
-    <Router>
-      <AuthProvider>
-        <AppRoutes />
-      </AuthProvider>
-    </Router>
   );
 }
 

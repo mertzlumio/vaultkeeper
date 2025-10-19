@@ -1,12 +1,15 @@
 import { createContext, useState, useContext, useEffect } from 'react';
 import { authAPI } from '../services/api';
 import { jwtDecode } from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [loggedOut, setLoggedOut] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     checkAuth();
@@ -23,8 +26,8 @@ export const AuthProvider = ({ children }) => {
           isStaff: decoded.is_staff || false,
         });
       } catch (error) {
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('refresh_token');
+        // Invalid token, clear storage
+        logout();
       }
     }
     setLoading(false);
@@ -39,12 +42,22 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('refresh_token', refresh);
       
       const decoded = jwtDecode(access);
+      const isStaff = decoded.is_staff || false;
+
       setUser({
         id: decoded.user_id,
         username: decoded.username || username,
-        isStaff: decoded.is_staff || false,
+        isStaff: isStaff,
       });
+      setLoggedOut(false);
       
+      // Redirect based on user role
+      if (isStaff) {
+        navigate('/admin');
+      } else {
+        navigate('/dashboard');
+      }
+
       return { success: true };
     } catch (error) {
       return { 
@@ -70,6 +83,8 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
     setUser(null);
+    setLoggedOut(true);
+    navigate('/login');
   };
 
   const value = {
@@ -80,6 +95,7 @@ export const AuthProvider = ({ children }) => {
     loading,
     isAuthenticated: !!user,
     isAdmin: user?.isStaff || false,
+    loggedOut,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
