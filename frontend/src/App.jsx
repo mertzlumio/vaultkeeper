@@ -44,7 +44,14 @@ function AppRoutes() {
         />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/unlock" element={<UnlockLocker />} />
+        <Route
+          path="/unlock"
+          element={
+            <PrivateRoute>
+              <UnlockLocker />
+            </PrivateRoute>
+          }
+        />
         <Route
           path="/dashboard"
           element={
