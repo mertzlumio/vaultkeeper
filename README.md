@@ -24,6 +24,17 @@ This is a full-stack web application designed to manage smart lockers. It provid
 - Admin dashboard for user and locker management
 - Real-time updates on locker availability
 
+## Screenshots
+
+### Login Page
+![Login Page](screenshots/20251020_14h51m41s_grim.png)
+
+### User Dashboard
+![User Dashboard](screenshots/20251020_14h51m36s_grim.png)
+
+### Admin Dashboard
+![Admin Dashboard](screenshots/20251020_14h52m00s_grim.png)
+
 ## Prerequisites
 
 - Python 3.8+ and Pip
