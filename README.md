@@ -1,6 +1,11 @@
 # Smart Locker Management System
 
 ![Python](https://img.shields.io/badge/python-3.8+-blue.svg)
+![Node.js](https://img.shields.io/badge/node.js-18+-green.svg)
+![React](https://img.shields.io/badge/react-18+-blue.svg)
+![PostgreSQL](https://img.shields.io/badge/postgresql-14+-blue.svg)
+![Tailwind CSS](https://img.shields.io/badge/tailwindcss-3+-teal.svg)
+![JWT](https://img.shields.io/badge/JWT-secure-orange.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)
 
