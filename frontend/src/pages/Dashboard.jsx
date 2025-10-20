@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { lockerAPI, reservationAPI } from '../services/api';
 import { FaLock, FaUnlock, FaKey, FaClock, FaMapMarkerAlt, FaTrash } from 'react-icons/fa';
 import { format } from 'date-fns';
+import PinDisplay from '../components/PinDisplay';
 
 const Dashboard = () => {
   const { isAdmin } = useAuth();
@@ -61,7 +62,7 @@ const Dashboard = () => {
         reserved_until: reserveUntil,
       });
       setNewReservation(response.data);
-      setSuccess(`✓ Locker reserved successfully! Your PIN: ${response.data.access_pin}`);
+      setSuccess(`✓ Locker reserved successfully!`);
       setShowReserveModal(false);
       setSelectedLocker(null);
       setReserveUntil('');
@@ -69,7 +70,7 @@ const Dashboard = () => {
         fetchData();
         setSuccess('');
         setNewReservation(null);
-      }, 3000);
+      }, 5000);
     } catch (err) {
       setError(err.response?.data?.detail || err.response?.data?.locker?.[0] || 'Failed to reserve locker');
     }
@@ -129,25 +130,34 @@ const Dashboard = () => {
       )}
 
       {newReservation && (
-        <div className="mb-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
-          <h3 className="font-bold text-blue-900 mb-2">Your Reservation Details</h3>
-          <div className="grid grid-cols-2 gap-4 text-sm text-blue-800">
-            <div>
-              <p className="text-gray-600">Locker</p>
-              <p className="font-bold">{newReservation.locker_details?.locker_number}</p>
+        <div className="mb-6 bg-blue-50 border-2 border-blue-300 rounded-lg p-6 shadow-lg">
+          <h3 className="font-bold text-blue-900 mb-4 text-xl flex items-center">
+            <FaKey className="mr-2" />
+            Your Reservation Details
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <div className="bg-white p-3 rounded-lg">
+              <p className="text-gray-600 text-xs mb-1">Locker Number</p>
+              <p className="font-bold text-lg text-gray-900">{newReservation.locker_details?.locker_number}</p>
             </div>
-            <div>
-              <p className="text-gray-600">Access PIN</p>
-              <p className="font-mono font-bold text-lg">{newReservation.access_pin}</p>
+            <div className="bg-white p-3 rounded-lg">
+              <p className="text-gray-600 text-xs mb-1">Access PIN</p>
+              <PinDisplay pin={newReservation.access_pin} />
             </div>
-            <div>
-              <p className="text-gray-600">Location</p>
-              <p className="font-bold">{newReservation.locker_details?.location}</p>
+            <div className="bg-white p-3 rounded-lg">
+              <p className="text-gray-600 text-xs mb-1">Location</p>
+              <p className="font-bold text-gray-900">{newReservation.locker_details?.location}</p>
             </div>
-            <div>
-              <p className="text-gray-600">Reserved Until</p>
-              <p className="font-bold">{format(new Date(newReservation.reserved_until), 'PPP p')}</p>
+            <div className="bg-white p-3 rounded-lg">
+              <p className="text-gray-600 text-xs mb-1">Reserved Until</p>
+              <p className="font-bold text-gray-900">{format(new Date(newReservation.reserved_until), 'PPP p')}</p>
             </div>
+          </div>
+          <div className="mt-4 bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+            <p className="text-yellow-800 text-sm flex items-center">
+              <FaKey className="mr-2" />
+              <strong>Important:</strong> Save your PIN! You'll need it to unlock the locker.
+            </p>
           </div>
         </div>
       )}
@@ -166,7 +176,9 @@ const Dashboard = () => {
 
           {lockers.length === 0 ? (
             <div className="card text-center py-12">
+              <FaLock className="text-gray-300 text-5xl mx-auto mb-4" />
               <p className="text-gray-500 text-lg">No available lockers at the moment</p>
+              <p className="text-gray-400 text-sm mt-2">Check back later</p>
             </div>
           ) : (
             <div className="space-y-4">
@@ -219,6 +231,7 @@ const Dashboard = () => {
 
           {reservations.length === 0 ? (
             <div className="card text-center py-12">
+              <FaClock className="text-gray-300 text-5xl mx-auto mb-4" />
               <p className="text-gray-500 text-lg">No active reservations</p>
               <p className="text-gray-400 text-sm mt-2">Reserve a locker to get started</p>
             </div>
@@ -238,9 +251,10 @@ const Dashboard = () => {
                         </div>
                         <div className="flex items-center space-x-2">
                           <FaKey className="text-gray-400" />
-                          <span className="font-mono font-bold text-gray-900">
-                            PIN: {reservation.access_pin}
-                          </span>
+                          <div className="flex items-center">
+                            <span className="mr-2">PIN:</span>
+                            <PinDisplay pin={reservation.access_pin} />
+                          </div>
                         </div>
                         <div className="flex items-center space-x-2">
                           <FaClock className="text-gray-400" />

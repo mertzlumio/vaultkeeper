@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { lockerAPI, reservationAPI } from '../services/api';
 import { FaEdit, FaTrash, FaPlus, FaUsers } from 'react-icons/fa';
+import PinDisplay from '../components/PinDisplay';
 
 const AdminDashboard = () => {
   const [lockers, setLockers] = useState([]);
@@ -250,7 +251,7 @@ const AdminDashboard = () => {
         </div>
       </div>
 
-      {/* Reservations Table - FIXED HEADING */}
+      {/* Reservations Table */}
       <div>
         <h2 className="text-2xl font-bold mb-4">All Reservations</h2>
         <div className="overflow-x-auto card">
@@ -267,7 +268,7 @@ const AdminDashboard = () => {
                   <th className="px-6 py-3 text-left text-sm font-semibold">Location</th>
                   <th className="px-6 py-3 text-left text-sm font-semibold">Status</th>
                   <th className="px-6 py-3 text-left text-sm font-semibold">Reserved Until</th>
-                  <th className="px-6 py-3 text-left text-sm font-semibold">PIN</th>
+                  <th className="px-6 py-3 text-left text-sm font-semibold">Access PIN</th>
                 </tr>
               </thead>
               <tbody>
@@ -290,8 +291,8 @@ const AdminDashboard = () => {
                     <td className="px-6 py-3 text-sm">
                       {new Date(res.reserved_until).toLocaleString()}
                     </td>
-                    <td className="px-6 py-3 text-sm font-mono font-bold">
-                      {res.access_pin}
+                    <td className="px-6 py-3 text-sm">
+                      <PinDisplay pin={res.access_pin} />
                     </td>
                   </tr>
                 ))}
