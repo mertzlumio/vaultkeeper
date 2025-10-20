@@ -65,9 +65,21 @@ This is a full-stack web application designed to manage smart lockers. It provid
     ```
 
 3.  **Create and activate a virtual environment:**
-    ```bash
+
+    ## Linux/macOS
+    ```
     python -m venv .venv
     source .venv/bin/activate
+    ```
+    ## Windows (CMD)
+    ```
+    python -m venv .venv
+    .venv\Scripts\activate
+    ```
+    ## Windows (PowerShell)
+    ```
+    python -m venv .venv
+    .venv\Scripts\Activate.ps1
     ```
 
 4.  **Install the required dependencies:**
