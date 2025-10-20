@@ -34,35 +34,49 @@ This is a full-stack web application designed to manage smart lockers. It provid
 
 ### Backend Setup (Django)
 
-1.  **Navigate to the Django directory:**
+1.  **Install POstgreSQL**
+    ```sql
+    -- Log in to PostgreSQL
+    psql -U postgres
+
+    -- Create database
+    CREATE DATABASE locker_db;
+
+    -- Create user
+    CREATE USER locker_user WITH PASSWORD 'secretpass';
+
+    -- Grant privileges
+    GRANT ALL PRIVILEGES ON DATABASE locker_db TO locker_user;
+    ```
+2.  **Navigate to the Django directory:**
     ```bash
     cd django
     ```
 
-2.  **Create and activate a virtual environment:**
+3.  **Create and activate a virtual environment:**
     ```bash
     python -m venv .venv
     source .venv/bin/activate
     ```
 
-3.  **Install the required dependencies:**
+4.  **Install the required dependencies:**
     ```bash
     pip install -r requirements.txt
     ```
 
-4.  **Set up your environment variables:**
+5.  **Set up your environment variables:**
     - Copy the example environment file:
       ```bash
       cp .env.example .env
       ```
     - Edit the `.env` file with your database credentials and secret key.
 
-5.  **Run the database migrations:**
+6.  **Run the database migrations:**
     ```bash
     python manage.py migrate
     ```
 
-6.  **Start the development server:**
+7.  **Start the development server:**
     ```bash
     python manage.py runserver
     ```
