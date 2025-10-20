@@ -67,7 +67,6 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                {/* REMOVED: Unlock Locker link when logged out */}
                 <Link
                   to="/login"
                   className="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium"

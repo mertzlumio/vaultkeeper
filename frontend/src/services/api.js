@@ -70,7 +70,8 @@ export const lockerAPI = {
   create: (data) => api.post('/lockers/', data),
   update: (id, data) => api.put(`/lockers/${id}/`, data),
   delete: (id) => api.delete(`/lockers/${id}/`),
-  unlock: (data) => api.post('/lockers/unlock/', data), // No auth required
+  reactivate: (id) => api.post(`/lockers/${id}/reactivate/`),
+  unlock: (data) => api.post('/lockers/unlock/', data),
 };
 
 // Reservation endpoints
@@ -79,6 +80,7 @@ export const reservationAPI = {
   getActive: () => api.get('/reservations/active/'),
   getById: (id) => api.get(`/reservations/${id}/`),
   create: (data) => api.post('/reservations/', data),
+  update: (id, data) => api.patch(`/reservations/${id}/`, data),
   release: (id) => api.put(`/reservations/${id}/release/`),
 };
 
