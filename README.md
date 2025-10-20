@@ -70,7 +70,7 @@ This is a full-stack web application designed to manage smart lockers. It provid
     ```
 2.  **Navigate to the Django directory:**
     ```bash
-    cd django
+    cd api
     ```
 
 3.  **Create and activate a virtual environment:**
@@ -123,7 +123,7 @@ This is a full-stack web application designed to manage smart lockers. It provid
 
 1.  **Navigate to the frontend directory:**
     ```bash
-    cd frontend
+    cd web
     ```
 
 2.  **Install the required dependencies:**
