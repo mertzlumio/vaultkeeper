@@ -5,6 +5,9 @@ import './index.css';
 import App from './App.jsx';
 import { AuthProvider } from './context/AuthContext.jsx';
 
+// Import Toastify CSS
+import 'react-toastify/dist/ReactToastify.css';
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Router>
