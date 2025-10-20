@@ -54,7 +54,7 @@ This is a full-stack web application designed to manage smart lockers. It provid
 
 ### Backend Setup (Django)
 
-1.  **Install PostgreSQL**
+1.  **Setup PostgreSQL**
     ```sql
     -- Log in to PostgreSQL
     psql -U postgres
