@@ -1,5 +1,9 @@
 # Smart Locker Management System
 
+![Python](https://img.shields.io/badge/python-3.8+-blue.svg)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
+![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)
+
 This is a full-stack web application designed to manage smart lockers. It provides a user-friendly interface for users to reserve and access lockers, and a powerful dashboard for administrators to manage the system.
 
 ## Tech Stack
@@ -45,7 +49,7 @@ This is a full-stack web application designed to manage smart lockers. It provid
 
 ### Backend Setup (Django)
 
-1.  **Install POstgreSQL**
+1.  **Install PostgreSQL**
     ```sql
     -- Log in to PostgreSQL
     psql -U postgres
@@ -67,17 +71,17 @@ This is a full-stack web application designed to manage smart lockers. It provid
 3.  **Create and activate a virtual environment:**
 
     ### Linux/macOS
-    ```
+    ```bash
     python -m venv .venv
     source .venv/bin/activate
     ```
     ### Windows (CMD)
-    ```
+    ```cmd
     python -m venv .venv
     .venv\Scripts\activate
     ```
     ### Windows (PowerShell)
-    ```
+    ```powershell
     python -m venv .venv
     .venv\Scripts\Activate.ps1
     ```
