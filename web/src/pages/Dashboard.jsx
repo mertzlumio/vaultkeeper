@@ -184,18 +184,18 @@ const Dashboard = () => {
             <div className="space-y-4">
               {lockers.map((locker) => (
                 <div key={locker.id} className="card hover:shadow-lg transition-shadow">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                    <div className="flex-1 min-w-0">
                       <h3 className="text-xl font-bold text-gray-900 mb-2">
                         {locker.locker_number}
                       </h3>
                       <div className="space-y-2 text-sm text-gray-600">
                         <div className="flex items-center space-x-2">
-                          <FaMapMarkerAlt className="text-gray-400" />
-                          <span>{locker.location}</span>
+                          <FaMapMarkerAlt className="text-gray-400 flex-shrink-0" />
+                          <span className="truncate">{locker.location}</span>
                         </div>
                         <div className="flex items-center space-x-2">
-                          <FaLock className="text-gray-400" />
+                          <FaLock className="text-gray-400 flex-shrink-0" />
                           <span className="capitalize text-green-600 font-medium">
                             {locker.status}
                           </span>
@@ -208,7 +208,7 @@ const Dashboard = () => {
                         setShowReserveModal(true);
                         setError('');
                       }}
-                      className="btn-primary ml-4 whitespace-nowrap"
+                      className="btn-primary whitespace-nowrap w-full sm:w-auto"
                     >
                       Reserve
                     </button>
@@ -239,30 +239,35 @@ const Dashboard = () => {
             <div className="space-y-4">
               {reservations.map((reservation) => (
                 <div key={reservation.id} className="card hover:shadow-lg transition-shadow">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <h3 className="text-xl font-bold text-gray-900 mb-2">
-                        {reservation.locker_details?.locker_number}
-                      </h3>
-                      <div className="space-y-2 text-sm text-gray-600 mb-4">
-                        <div className="flex items-center space-x-2">
-                          <FaMapMarkerAlt className="text-gray-400" />
-                          <span>{reservation.locker_details?.location}</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <FaKey className="text-gray-400" />
-                          <div className="flex items-center">
-                            <span className="mr-2">PIN:</span>
-                            <PinDisplay pin={reservation.access_pin} />
+                  <div className="flex flex-col gap-3">
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-xl font-bold text-gray-900 mb-2">
+                          {reservation.locker_details?.locker_number}
+                        </h3>
+                        <div className="space-y-2 text-sm text-gray-600">
+                          <div className="flex items-center space-x-2">
+                            <FaMapMarkerAlt className="text-gray-400 flex-shrink-0" />
+                            <span className="truncate">{reservation.locker_details?.location}</span>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <FaKey className="text-gray-400 flex-shrink-0" />
+                            <div className="flex items-center gap-2 overflow-x-auto">
+                              <span className="text-xs whitespace-nowrap">PIN:</span>
+                              <PinDisplay pin={reservation.access_pin} />
+                            </div>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <FaClock className="text-gray-400 flex-shrink-0" />
+                            <span className="text-xs truncate">
+                              Until {format(new Date(reservation.reserved_until), 'PPP p')}
+                            </span>
                           </div>
                         </div>
-                        <div className="flex items-center space-x-2">
-                          <FaClock className="text-gray-400" />
-                          <span>
-                            Until {format(new Date(reservation.reserved_until), 'PPP p')}
-                          </span>
-                        </div>
                       </div>
+                    </div>
+                    
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 pt-2 border-t">
                       <div className="inline-block">
                         <span
                           className={`px-3 py-1 rounded-full text-xs font-semibold ${
@@ -274,16 +279,16 @@ const Dashboard = () => {
                           {reservation.is_active ? 'Active' : 'Released'}
                         </span>
                       </div>
+                      {reservation.is_active && (
+                        <button
+                          onClick={() => handleReleaseReservation(reservation.id)}
+                          className="btn-danger text-xs px-2 py-1 flex items-center space-x-1 whitespace-nowrap w-full sm:w-auto justify-center"
+                        >
+                          <FaTrash size={12} />
+                          <span>Release</span>
+                        </button>
+                      )}
                     </div>
-                    {reservation.is_active && (
-                      <button
-                        onClick={() => handleReleaseReservation(reservation.id)}
-                        className="btn-danger ml-4 whitespace-nowrap flex items-center space-x-1"
-                      >
-                        <FaTrash />
-                        <span>Release</span>
-                      </button>
-                    )}
                   </div>
                 </div>
               ))}
@@ -330,7 +335,7 @@ const Dashboard = () => {
                 </p>
               </div>
 
-              <div className="flex space-x-3 pt-4">
+              <div className="flex flex-col sm:flex-row gap-3 pt-4">
                 <button
                   type="submit"
                   className="btn-primary flex-1"

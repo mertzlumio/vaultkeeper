@@ -102,21 +102,27 @@ const Navbar = () => {
                 <Link
                   to="/unlock"
                   className="text-gray-700 hover:text-primary-600 block px-3 py-2 rounded-md text-base font-medium"
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Unlock Locker
                 </Link>
-                <Link
-                  to="/dashboard"
-                  className="text-gray-700 hover:text-primary-600 block px-3 py-2 rounded-md text-base font-medium"
-                >
-                  Dashboard
-                </Link>
+                {!isAdmin && (
+                  <Link
+                    to="/dashboard"
+                    className="text-gray-700 hover:text-primary-600 block px-3 py-2 rounded-md text-base font-medium"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Dashboard
+                  </Link>
+                )}
                 {isAdmin && (
                   <Link
                     to="/admin"
-                    className="text-gray-700 hover:text-primary-600 block px-3 py-2 rounded-md text-base font-medium"
+                    className="text-gray-700 hover:text-primary-600 flex items-center space-x-1 block px-3 py-2 rounded-md text-base font-medium"
+                    onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    Admin
+                    <FaUserShield />
+                    <span>Admin</span>
                   </Link>
                 )}
                 <div className="border-t border-gray-200 pt-4 mt-4">
@@ -142,12 +148,14 @@ const Navbar = () => {
                 <Link
                   to="/login"
                   className="text-gray-700 hover:text-primary-600 block px-3 py-2 rounded-md text-base font-medium"
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Login
                 </Link>
                 <Link
                   to="/register"
                   className="text-gray-700 hover:text-primary-600 block px-3 py-2 rounded-md text-base font-medium"
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Register
                 </Link>
