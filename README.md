@@ -105,6 +105,11 @@ This is a full-stack web application designed to manage smart lockers. It provid
     ```
     The backend will be running at `http://127.0.0.1:8000`.
 
+8. **Create Admin User**
+    ```bash
+    python manage.py createsuperuser
+    ```
+
 ### Frontend Setup (React)
 
 1.  **Navigate to the frontend directory:**
