@@ -36,13 +36,13 @@ This is a full-stack web application designed to manage smart lockers. It provid
 ## Screenshots
 
 ### Login Page
-![Login Page](screenshots/20251020_14h51m41s_grim.png)
+![Login Page](screenshots/20251021_10h20m33s_grim.png)
 
 ### User Dashboard
-![User Dashboard](screenshots/20251020_14h51m36s_grim.png)
+![User Dashboard](screenshots/20251021_10h20m43s_grim.png)
 
 ### Admin Dashboard
-![Admin Dashboard](screenshots/20251020_14h52m00s_grim.png)
+![Admin Dashboard](screenshots/20251021_10h20m52s_grim.png)
 
 ## Prerequisites
 

@@ -19,7 +19,12 @@ const Navbar = () => {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-2">
-              <FaLock className="text-primary-600 text-2xl" />
+              <img 
+                src="/icons8-safe-32-2.png" 
+                alt="Lock Icon" 
+                width={32} 
+                height={32} 
+              />
               <span className="text-xl font-bold text-gray-900">
                 Vault Keeper
               </span>
